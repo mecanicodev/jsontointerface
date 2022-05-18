@@ -1,0 +1,4 @@
+/* overriding styles to match prismjs code element */
+.monaco-scrollable-element>.invisible.fade {
+  transition: opacity 0s !important;
+}
