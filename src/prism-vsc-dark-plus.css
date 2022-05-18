@@ -275,9 +275,7 @@ pre[class*="language-"] > code[class*="language-"] {
 }
 
 /* Custom styles to match monaco editor */
-/* pre {
-	overflow-y: visible;
-} */
+
 pre::-webkit-scrollbar {
 	background-color: #1e1e1e;
 	width: 14px;
