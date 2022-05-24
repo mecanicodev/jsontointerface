@@ -1,5 +1,4 @@
 .window {
-  /* border: 1px solid #555555; */
   border-radius: 10px 15px 0 0;
 }
 
@@ -11,5 +10,5 @@
 
 .container {
   background: rgb(3,21,41);
-background: linear-gradient(90deg, rgba(3,21,41,1) 0%, rgba(47,116,192,1) 85%);
+  background: linear-gradient(90deg, rgba(3,21,41,1) 0%, rgba(47,116,192,1) 85%);
 }

@@ -7,16 +7,46 @@ import { Flex } from '@chakra-ui/react'
 
 
 interface Props {
-  language: string,
+  language: string
+  content?: string
   height?: string
 }
-const Code:React.FC<Props> = ({language, height = '100%'}) =>  {
+
+const defaultContet: string = 
+  `
+  interface Product {
+    id: number;
+    title: string;
+    price: number;
+    description: string;
+    category: Category;
+    images: Array<>;
+    categoryId: number;
+  }`.repeat(4)
+
+const Code:React.FC<Props> = ({
+  language,
+  content = defaultContet, 
+  height = '100%'
+}) => {
 
   useEffect(() => {
-    Prism.highlightAll()
+    Prism.languages['typescript'] = Prism.languages.extend('typescript', {
+      'interface': {
+        pattern: /(?<=\s)[A-Z]{1}[a-z]*/,
+        alias: 'class-name',
+        lookbehind: true
+      }
+    });
   }, [])
+
+  useEffect(() => {
+    Prism.highlightAll();
+  }, [content])
+
+ 
   
-  const wrapperStyles: Object = {
+  const wrapperStyles = {
     margin: '0 auto',
     width: '100%',
   } as React.CSSProperties
@@ -27,6 +57,9 @@ const Code:React.FC<Props> = ({language, height = '100%'}) =>  {
     flexGrow: 1
   } as React.CSSProperties
 
+
+  
+
   return (
      <Flex 
       mt='-8px'
@@ -34,17 +67,7 @@ const Code:React.FC<Props> = ({language, height = '100%'}) =>  {
      >
         <pre style={preStyles}>
           <code className={`language-${language}`}>
-            {`
-interface Product {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: Category;
-  images: Array<>;
-  categoryId: number;
-}
-            `.repeat(4)}
+            {content}
           </code>
         </pre>
      </Flex>
@@ -52,3 +75,5 @@ interface Product {
 }
 
 export default Code;
+
+
