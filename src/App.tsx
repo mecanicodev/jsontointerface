@@ -10,7 +10,6 @@ import {
   useToast,
   Progress,
   Spinner,
-  Input,
 } from '@chakra-ui/react';
 import Code from './Code';
 import testJson from './util/test'
