@@ -1,5 +1,5 @@
 {
-  "name": "quicktype",
+  "name": "jsontointerface",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
