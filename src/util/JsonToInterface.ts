@@ -15,8 +15,8 @@ export default function jsonToInterface(jsonSchema: string, name: string = 'name
   } catch (error) {
     return '' // invalid JSON
   }
-
   const map = deepMapObjects(objSchema, name);
+ 
 
   const makeInterface = (obj: JsonObject, iFaceName: string): string => {
     let props: string = '';
@@ -25,7 +25,7 @@ export default function jsonToInterface(jsonSchema: string, name: string = 'name
       let value: JsonValidType = obj[key];
       let type: string;
       if (Array.isArray(value)) {
-        if (value.every(item => typeof item === 'object' && !Array.isArray(item))) {
+        if (isArrayOfObjects(value)) {
           type = capitalize(map.get(value[0] as JsonObject) as string) + '[]';
         } else {
           type = getType(value);
@@ -49,13 +49,12 @@ export default function jsonToInterface(jsonSchema: string, name: string = 'name
 }
 
 function deepMapObjects(obj: JsonObject, name: string = 'name' ): Map<JsonObject, string> {
-
+  
   let entries: Entry[] = [[obj, name]]
 
   for (let [key, value] of Object.entries(obj)) {
     if (Array.isArray(value)) {
-      let isArrayOfObjects: boolean = value.every(item => typeof item === 'object' && !Array.isArray(item))
-      if (isArrayOfObjects) {
+      if (isArrayOfObjects(value)) {
         let objName: string = pluralize.singular(key)
         entries = entries.concat([...deepMapObjects(value[0] as JsonObject, objName)])
       } 
@@ -64,7 +63,6 @@ function deepMapObjects(obj: JsonObject, name: string = 'name' ): Map<JsonObject
     }
      
   }
-
   return new Map(entries);
 }
 
@@ -99,4 +97,12 @@ function capitalize(str: string) {
   const start: string = str.charAt(0).toLocaleUpperCase()
   const end: string = str.length > 1 ? str.slice(1) : ''; 
   return  start + end;
+}
+
+function isArrayOfObjects(arr: Array<JsonValidType>) {
+  if (arr.length === 0) {
+    return false
+  } else {
+    return arr.every(item => typeof item === 'object' && !Array.isArray(item))
+  }
 }
